@@ -11,25 +11,19 @@ const ForecastForm = ({ onResults }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      const response = await axios.post(
-        'https://phenomenal-cupcake-5514ef.netlify.app/.netlify/functions/forecast',
-        formData,
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      onResults(response.data);
+        const response = await axios.post(
+            'https://phenomenal-cupcake-5514ef.netlify.app/.netlify/functions/forecast',
+            formData,
+            { headers: { 'Content-Type': 'application/json' } }
+        );
+        console.log('API Response:', response.data);  // Log the response to check its data
+        onResults(response.data);
     } catch (error) {
-      console.error('Error fetching forecast:', error);
-      if (error.response) {
-        alert(`Failed to fetch forecast. Server responded with: ${error.response.statusText}`);
-      } else {
-        alert('Failed to fetch forecast. Please check your internet connection.');
-      }
-    } finally {
-      setLoading(false);
+        console.error('Error fetching forecast:', error);
+        alert('Failed to fetch forecast. Please try again.');
     }
-  };
+};
 
   return (
     <form onSubmit={handleSubmit}>
