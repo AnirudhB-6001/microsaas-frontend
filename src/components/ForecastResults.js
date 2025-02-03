@@ -1,7 +1,9 @@
 import React from 'react';
 
 const ForecastResults = ({ results }) => {
-  if (!results) return null;
+  if (!results) {
+    return <p>No results to display.</p>;
+  }
 
   return (
     <div>
@@ -9,13 +11,13 @@ const ForecastResults = ({ results }) => {
       <p>Average Growth Rate: {results.avgGrowthRate}%</p>
       <p>Total Sales: ${results.totalSales}</p>
       <p>Average Quarterly Sales: ${results.avgQuarterlySales}</p>
-      <p>Total Forecasted Sales: ${results.totalForecastedSales}</p>
-      <h3>Projected Quarters</h3>
+      <h3>Projected Quarters:</h3>
       <ul>
-        {results.projectedQuarters.map((q, index) => (
-          <li key={index}>Quarter {index + 1}: ${q}</li>
+        {results.projectedQuarters.map((quarter, index) => (
+          <li key={index}>Q{index + 1}: ${quarter}</li>
         ))}
       </ul>
+      <p>Total Forecasted Sales: ${results.totalForecastedSales}</p>
     </div>
   );
 };
