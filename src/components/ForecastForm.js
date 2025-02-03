@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const ForecastForm = ({ onResults }) => {
   const [formData, setFormData] = useState({ q1: '', q2: '', q3: '', q4: '' });
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -12,18 +11,18 @@ const ForecastForm = ({ onResults }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post(
-            'https://phenomenal-cupcake-5514ef.netlify.app/.netlify/functions/forecast',
-            formData,
-            { headers: { 'Content-Type': 'application/json' } }
-        );
-        console.log('API Response:', response.data);  // Log the response to check its data
-        onResults(response.data);
+      const response = await axios.post(
+        'https://phenomenal-cupcake-5514ef.netlify.app/.netlify/functions/forecast',
+        formData,
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      console.log('API Response:', response.data);
+      onResults(response.data);
     } catch (error) {
-        console.error('Error fetching forecast:', error);
-        alert('Failed to fetch forecast. Please try again.');
+      console.error('Error fetching forecast:', error);
+      alert('Failed to fetch forecast. Please try again.');
     }
-};
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -43,9 +42,7 @@ const ForecastForm = ({ onResults }) => {
         Q4 Sales:
         <input type="number" name="q4" value={formData.q4} onChange={handleChange} required />
       </label>
-      <button type="submit" disabled={loading}>
-        {loading ? 'Submitting...' : 'Submit'}
-      </button>
+      <button type="submit">Submit</button>
     </form>
   );
 };
