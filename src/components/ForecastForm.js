@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const ForecastForm = ({ onResults }) => {
   const [formData, setFormData] = useState({ q1: '', q2: '', q3: '', q4: '' });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -10,6 +11,7 @@ const ForecastForm = ({ onResults }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         'https://phenomenal-cupcake-5514ef.netlify.app/.netlify/functions/forecast',
@@ -19,7 +21,13 @@ const ForecastForm = ({ onResults }) => {
       onResults(response.data);
     } catch (error) {
       console.error('Error fetching forecast:', error);
-      alert('Failed to fetch forecast. Please try again.');
+      if (error.response) {
+        alert(`Failed to fetch forecast. Server responded with: ${error.response.statusText}`);
+      } else {
+        alert('Failed to fetch forecast. Please check your internet connection.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,7 +49,9 @@ const ForecastForm = ({ onResults }) => {
         Q4 Sales:
         <input type="number" name="q4" value={formData.q4} onChange={handleChange} required />
       </label>
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={loading}>
+        {loading ? 'Submitting...' : 'Submit'}
+      </button>
     </form>
   );
 };
