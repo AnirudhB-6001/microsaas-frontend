@@ -12,11 +12,10 @@ const ForecastForm = ({ onResults }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://api.anirudhbatraofficial.com/.netlify/functions/forecast',
+        'https://phenomenal-cupcake-5514ef.netlify.app/.netlify/functions/forecast',
         formData,
         { headers: { 'Content-Type': 'application/json' } }
       );
-
       console.log('API Response:', response.data);
       onResults(response.data);
     } catch (error) {
